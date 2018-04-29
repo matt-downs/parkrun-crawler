@@ -33,8 +33,8 @@ function testAthlete(testData) {
                 event: Joi.string().required(),
                 eventUrl: Joi.string().required(),
                 date: Joi.string().required(),
-                genderPosition: Joi.string().required(),
-                overallPosition: Joi.string().required(),
+                genderPosition: Joi.number().integer().required(),
+                overallPosition: Joi.number().integer().required(),
                 time: Joi.string().required(),
                 ageGrade: Joi.string().required()
             });
@@ -46,9 +46,9 @@ function testAthlete(testData) {
             let eventSummarySchema = Joi.object().keys({
                 event: Joi.string().required(),
                 eventUrl: Joi.string().required(),
-                runs: Joi.string().required(),
-                bestGenderPosition: Joi.string().required(),
-                bestOverallPosition: Joi.string().required(),
+                count: Joi.number().integer().required(),
+                bestGenderPosition: Joi.number().integer().required(),
+                bestOverallPosition: Joi.number().integer().required(),
                 bestTime: Joi.string().required()
             });
 
@@ -56,17 +56,13 @@ function testAthlete(testData) {
         });
 
         test('volunteerSummary is an array containing the required data', () => {
-            // let volunteerSummarySchema = Joi.object().keys({
-            //     event: Joi.string().required(),
-            //     eventUrl: Joi.string().required(),
-            //     date: Joi.string().required(),
-            //     genderPosition: Joi.string().required(),
-            //     overallPosition: Joi.string().required(),
-            //     time: Joi.string().required(),
-            //     ageGrade: Joi.string().required()
-            // });
+            let volunteerSummarySchema = Joi.object().keys({
+                year: Joi.string().required(),
+                role: Joi.string().required(),
+                count: Joi.number().integer().required()
+            });
 
-            // Joi.assert(athlete.volunteerSummary, Joi.array().items(volunteerSummarySchema).required());
+            Joi.assert(athlete.volunteerSummary, Joi.array().items(volunteerSummarySchema).required());
         });
 
     });
