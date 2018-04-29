@@ -1,8 +1,7 @@
 const request = require('request');
-const jsdom = require("jsdom");
 const {
     JSDOM
-} = jsdom;
+} = require("jsdom");
 
 
 let parkrunBaseUrl = 'http://www.parkrun.com.au';
@@ -17,15 +16,15 @@ module.exports.getAthlete = (athleteId) => {
 
             const dom = new JSDOM(body);
 
-    
+
             // Matt DOWNS (73 parkruns)
             let heading = dom.window.document.querySelector('#content h2').textContent;
             let name = heading.split('(')[0].trim();
             let totalRuns = parseInt(heading.split('(')[1].match(/\d+/));
-    
+
 
             let resultsTables = dom.window.document.querySelectorAll('#results');
-    
+
 
             // Recent runs
             let recentRuns = [];
@@ -35,15 +34,15 @@ module.exports.getAthlete = (athleteId) => {
                     event: row.cells[0].textContent,
                     eventUrl: row.cells[0].querySelector('a:not(:empty)').href,
                     date: row.cells[1].textContent,
-                    genderPosition: row.cells[2].textContent,
-                    overallPosition: row.cells[3].textContent,
+                    genderPosition: parseInt(row.cells[2].textContent),
+                    overallPosition: parseInt(row.cells[3].textContent),
                     time: row.cells[4].textContent,
                     ageGrade: row.cells[5].textContent
                 };
                 recentRuns.push(run);
             }
-    
-    
+
+
             // Event summary
             let eventSummary = [];
             let eventTable = resultsTables[1].querySelectorAll('tbody > tr');
@@ -51,9 +50,9 @@ module.exports.getAthlete = (athleteId) => {
                 let event = {
                     event: row.cells[0].textContent,
                     eventUrl: row.cells[0].querySelector('a:not(:empty)').href,
-                    runs: row.cells[1].textContent,
-                    bestGenderPosition: row.cells[2].textContent,
-                    bestOverallPosition: row.cells[3].textContent,
+                    count: parseInt(row.cells[1].textContent),
+                    bestGenderPosition: parseInt(row.cells[2].textContent),
+                    bestOverallPosition: parseInt(row.cells[3].textContent),
                     bestTime: row.cells[4].textContent
                 };
                 eventSummary.push(event);
