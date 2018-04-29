@@ -1,7 +1,6 @@
 const request = require('request');
-const {
-    JSDOM
-} = require("jsdom");
+const cheerio = require('cheerio')
+
 
 
 let parkrunBaseUrl = 'http://www.parkrun.com.au';
@@ -14,62 +13,59 @@ module.exports.getAthlete = (athleteId) => {
             if (error) return reject(error);
             if (response.statusCode !== 200) return reject(response);
 
-            const dom = new JSDOM(body);
+            const $ = cheerio.load(body)
 
 
             // Matt DOWNS (73 parkruns)
-            let heading = dom.window.document.querySelector('#content h2').textContent;
+            let heading = $('#content h2').first().text();
             let name = heading.split('(')[0].trim();
             let totalRuns = parseInt(heading.split('(')[1].match(/\d+/));
 
 
-            let resultsTables = dom.window.document.querySelectorAll('#results');
+            let resultsTables = $('#results');
 
 
             // Recent runs
             let recentRuns = [];
-            let recentTable = resultsTables[0].querySelectorAll('tbody > tr');
-            for (let row of recentTable) {
+            let recentTable = $(resultsTables[0]).find('tbody > tr').each((i, row) => {
                 let run = {
-                    event: row.cells[0].textContent,
-                    eventUrl: row.cells[0].querySelector('a:not(:empty)').href,
-                    date: row.cells[1].textContent,
-                    genderPosition: parseInt(row.cells[2].textContent),
-                    overallPosition: parseInt(row.cells[3].textContent),
-                    time: row.cells[4].textContent,
-                    ageGrade: row.cells[5].textContent
+                    event: $(row.children[0]).text(),
+                    eventUrl: $(row.children[0]).find('a:not(:empty)').attr('href'),
+                    date: $(row.children[1]).text(),
+                    genderPosition: parseInt($(row.children[2]).text()),
+                    overallPosition: parseInt($(row.children[3]).text()),
+                    time: $(row.children[4]).text(),
+                    ageGrade: $(row.children[5]).text()
                 };
                 recentRuns.push(run);
-            }
+            });
 
 
             // Event summary
             let eventSummary = [];
-            let eventTable = resultsTables[1].querySelectorAll('tbody > tr');
-            for (let row of eventTable) {
+            let eventTable = $(resultsTables[1]).find('tbody > tr').each((i, row) => {
                 let event = {
-                    event: row.cells[0].textContent,
-                    eventUrl: row.cells[0].querySelector('a:not(:empty)').href,
-                    count: parseInt(row.cells[1].textContent),
-                    bestGenderPosition: parseInt(row.cells[2].textContent),
-                    bestOverallPosition: parseInt(row.cells[3].textContent),
-                    bestTime: row.cells[4].textContent
+                    event: $(row.children[0]).text(),
+                    eventUrl: $(row.children[0]).find('a:not(:empty)').attr('href'),
+                    count: parseInt($(row.children[1]).text()),
+                    bestGenderPosition: parseInt($(row.children[2]).text()),
+                    bestOverallPosition: parseInt($(row.children[3]).text()),
+                    bestTime: $(row.children[4]).text()
                 };
                 eventSummary.push(event);
-            }
+            });
 
 
             // Volunteer summary
             let volunteerSummary = [];
-            let volunteerTable = resultsTables[2].querySelectorAll('tbody > tr');
-            for (let row of volunteerTable) {
+            let volunteerTable = $(resultsTables[2]).find('tbody > tr').each((i, row) => {
                 let event = {
-                    year: row.cells[0].textContent,
-                    role: row.cells[1].textContent,
-                    count: parseInt(row.cells[2].textContent)
+                    year: $(row.children[0]).text(),
+                    role: $(row.children[1]).text(),
+                    count: parseInt($(row.children[2]).text())
                 };
                 volunteerSummary.push(event);
-            }
+            });
 
             const athlete = {
                 name: name,
