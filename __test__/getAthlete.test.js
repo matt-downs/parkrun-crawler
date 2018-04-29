@@ -5,8 +5,10 @@ const parkrunCrawler = require('../index');
 [{
     athleteId: '2054291',
     name: 'Matt DOWNS'
+},{
+    athleteId: '1830855',
+    name: 'Frances GREVILLE-EYRES'
 }].forEach(testAthlete)
-
 
 
 function testAthlete(testData) {
@@ -18,8 +20,8 @@ function testAthlete(testData) {
             athlete = await parkrunCrawler.getAthlete(testData.athleteId);
         });
 
-        test('name is a string', () => {
-            Joi.assert(athlete.name, Joi.string().required());
+        test(`name is ${testData.name}`, () => {
+            Joi.assert(athlete.name, Joi.string().valid(testData.name).required());
         });
 
         test('totalRuns is an integer', () => {
