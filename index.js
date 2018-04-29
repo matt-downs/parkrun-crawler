@@ -1,9 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio')
 
-
-
-let parkrunBaseUrl = 'http://www.parkrun.com.au';
+const parkrunBaseUrl = 'http://www.parkrun.com.au';
 
 module.exports.getAthlete = (athleteId) => {
     return new Promise((resolve, reject) => {
@@ -15,15 +13,13 @@ module.exports.getAthlete = (athleteId) => {
 
             const $ = cheerio.load(body)
 
-
             // Matt DOWNS (73 parkruns)
             let heading = $('#content h2').first().text();
-            let name = heading.split('(')[0].trim();
-            let totalRuns = parseInt(heading.split('(')[1].match(/\d+/));
-
+            heading = heading.split('(');
+            let name = heading[0].trim();
+            let totalRuns = parseInt(heading[1].match(/\d+/));
 
             let resultsTables = $('#results');
-
 
             // Recent runs
             let recentRuns = [];
@@ -40,7 +36,6 @@ module.exports.getAthlete = (athleteId) => {
                 recentRuns.push(run);
             });
 
-
             // Event summary
             let eventSummary = [];
             let eventTable = $(resultsTables[1]).find('tbody > tr').each((i, row) => {
@@ -54,7 +49,6 @@ module.exports.getAthlete = (athleteId) => {
                 };
                 eventSummary.push(event);
             });
-
 
             // Volunteer summary
             let volunteerSummary = [];

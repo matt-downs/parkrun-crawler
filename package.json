@@ -1,6 +1,6 @@
 {
   "name": "parkrun-crawler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pull athlete information straight from the Parkrun website",
   "main": "index.js",
   "scripts": {
