@@ -5,56 +5,18 @@ const {
 } = jsdom;
 
 
-function getUrl(country) {
-    switch (country.toLowerCase()) {
-        case 'au':
-            return 'www.parkrun.com.au';
-        case 'ca':
-            return 'www.parkrun.ca';
-        case 'dk':
-            return 'www.parkrun.dk';
-        case 'fi':
-            return 'www.parkrun.fi';
-        case 'fr':
-            return 'www.parkrun.fr';
-        case 'de':
-            return 'www.parkrun.com.de';
-        case 'ie':
-            return 'www.parkrun.ie';
-        case 'it':
-            return 'www.parkrun.it';
-        case 'nz':
-            return 'www.parkrun.co.nz';
-        case 'no':
-            return 'www.parkrun.no';
-        case 'pl':
-            return 'www.parkrun.pl';
-        case 'ru':
-            return 'www.parkrun.ru';
-        case 'sg':
-            return 'www.parkrun.sg';
-        case 'za':
-            return 'www.parkrun.co.za';
-        case 'se':
-            return 'www.parkrun.se';
-        case 'uk':
-            return 'www.parkrun.org.uk';
-        case 'us':
-            return 'www.parkrun.us';
-    }
-}
+let parkrunBaseUrl = 'http://www.parkrun.com.au';
 
-
-module.exports.getAthlete = (athleteId, countryCode) => {
+module.exports.getAthlete = (athleteId) => {
     return new Promise((resolve, reject) => {
-        let url = `http://${getUrl(countryCode)}/results/athleteresultshistory/?athleteNumber=${athleteId}`;
+        let url = `${parkrunBaseUrl}/results/athleteresultshistory/?athleteNumber=${athleteId}`;
 
         request(url, function (error, response, body) {
             if (error) return reject(error);
             if (response.statusCode !== 200) return reject(response);
 
             const dom = new JSDOM(body);
-            
+
     
             // Matt DOWNS (73 parkruns)
             let heading = dom.window.document.querySelector('#content h2').textContent;

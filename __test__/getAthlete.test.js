@@ -4,18 +4,18 @@ const parkrunCrawler = require('../index');
 
 [{
     athleteId: '2054291',
-    country: 'au'
+    name: 'Matt DOWNS'
 }].forEach(testAthlete)
 
 
 
 function testAthlete(testData) {
-    return describe(`athlete from ${testData.country}`, () => {
+    return describe(`athlete ${testData.name}`, () => {
 
         let athlete = {};
 
         beforeAll(async function () {
-            athlete = await parkrunCrawler.getAthlete(testData.athleteId, testData.country);
+            athlete = await parkrunCrawler.getAthlete(testData.athleteId);
         });
 
         test('name is a string', () => {
