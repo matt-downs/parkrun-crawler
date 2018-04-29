@@ -58,9 +58,19 @@ module.exports.getAthlete = (athleteId) => {
                 };
                 eventSummary.push(event);
             }
-    
+
+
+            // Volunteer summary
             let volunteerSummary = [];
-    
+            let volunteerTable = resultsTables[2].querySelectorAll('tbody > tr');
+            for (let row of volunteerTable) {
+                let event = {
+                    year: row.cells[0].textContent,
+                    role: row.cells[1].textContent,
+                    count: parseInt(row.cells[2].textContent)
+                };
+                volunteerSummary.push(event);
+            }
 
             const athlete = {
                 name: name,
