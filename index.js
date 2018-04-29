@@ -1,30 +1,32 @@
-const request = require('request');
-const cheerio = require('cheerio')
+'use strict';
 
-const parkrunBaseUrl = 'http://www.parkrun.com.au';
+var request = require('request');
+var cheerio = require('cheerio');
 
-module.exports.getAthlete = (athleteId) => {
-    return new Promise((resolve, reject) => {
-        let url = `${parkrunBaseUrl}/results/athleteresultshistory/?athleteNumber=${athleteId}`;
+var parkrunBaseUrl = 'http://www.parkrun.com.au';
+
+module.exports.getAthlete = function (athleteId) {
+    return new Promise(function (resolve, reject) {
+        var url = parkrunBaseUrl + '/results/athleteresultshistory/?athleteNumber=' + athleteId;
 
         request(url, function (error, response, body) {
             if (error) return reject(error);
             if (response.statusCode !== 200) return reject(response);
 
-            const $ = cheerio.load(body)
+            var $ = cheerio.load(body);
 
             // Matt DOWNS (73 parkruns)
-            let heading = $('#content h2').first().text();
+            var heading = $('#content h2').first().text();
             heading = heading.split('(');
-            let name = heading[0].trim();
-            let totalRuns = parseInt(heading[1].match(/\d+/));
+            var name = heading[0].trim();
+            var totalRuns = parseInt(heading[1].match(/\d+/));
 
-            let resultsTables = $('#results');
+            var resultsTables = $('#results');
 
             // Recent runs
-            let recentRuns = [];
-            let recentTable = $(resultsTables[0]).find('tbody > tr').each((i, row) => {
-                let run = {
+            var recentRuns = [];
+            var recentTable = $(resultsTables[0]).find('tbody > tr').each(function (i, row) {
+                var run = {
                     event: $(row.children[0]).text(),
                     eventUrl: $(row.children[0]).find('a:not(:empty)').attr('href'),
                     date: $(row.children[1]).text(),
@@ -37,9 +39,9 @@ module.exports.getAthlete = (athleteId) => {
             });
 
             // Event summary
-            let eventSummary = [];
-            let eventTable = $(resultsTables[1]).find('tbody > tr').each((i, row) => {
-                let event = {
+            var eventSummary = [];
+            var eventTable = $(resultsTables[1]).find('tbody > tr').each(function (i, row) {
+                var event = {
                     event: $(row.children[0]).text(),
                     eventUrl: $(row.children[0]).find('a:not(:empty)').attr('href'),
                     count: parseInt($(row.children[1]).text()),
@@ -51,9 +53,9 @@ module.exports.getAthlete = (athleteId) => {
             });
 
             // Volunteer summary
-            let volunteerSummary = [];
-            let volunteerTable = $(resultsTables[2]).find('tbody > tr').each((i, row) => {
-                let event = {
+            var volunteerSummary = [];
+            var volunteerTable = $(resultsTables[2]).find('tbody > tr').each(function (i, row) {
+                var event = {
                     year: $(row.children[0]).text(),
                     role: $(row.children[1]).text(),
                     count: parseInt($(row.children[2]).text())
@@ -61,7 +63,7 @@ module.exports.getAthlete = (athleteId) => {
                 volunteerSummary.push(event);
             });
 
-            const athlete = {
+            var athlete = {
                 name: name,
                 totalRuns: totalRuns,
                 recentRuns: recentRuns,
@@ -72,4 +74,4 @@ module.exports.getAthlete = (athleteId) => {
             resolve(athlete);
         });
     });
-}
+};
