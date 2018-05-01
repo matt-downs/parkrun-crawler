@@ -6,8 +6,16 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-downs/parkrun-crawler.git"
+  },
+  "author": "Matt Downs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matt-downs/parkrun-crawler/issues"
+  },
+  "homepage": "https://github.com/matt-downs/parkrun-crawler#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.85.0"
