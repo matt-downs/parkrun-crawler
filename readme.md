@@ -1,8 +1,10 @@
 # parkrun-crawler
+[![npm](https://img.shields.io/npm/dm/parkrun-crawler.svg)](https://www.npmjs.com/package/parkrun-crawler)
+[![npm](https://img.shields.io/npm/v/parkrun-crawler.svg)](https://www.npmjs.com/package/parkrun-crawler)
+
 Unfortunatley Parkrun does not provide an API to query athlete or run information - this module provides an easy way to pull athlete data straight from the Parkrun website.
 
-Currently only the [athlete result history](http://www.parkrun.com.au/results/athleteresultshistory/?athleteNumber=2054291
-) page can be crawled using the `getAthlete(athleteId)` method.
+Currently only the [athlete result history](http://www.parkrun.com.au/results/athleteresultshistory/?athleteNumber=2054291) page can be crawled using the `getAthlete(athleteId)` method.
 
 `getAthlete` returns a promise that will resolve with the crawled athlete data. 
 
