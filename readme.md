@@ -1,8 +1,26 @@
-## parkrun-crawler
-Unfortunatley Parkrun does not have an API that can be used to query athlete or run information - this module provides an easy way to pull athlete data straight from the Parkrun website.
+# parkrun-crawler
+Unfortunatley Parkrun does not provide an API to query athlete or run information - this module provides an easy way to pull athlete data straight from the Parkrun website.
 
+Currently only the [athlete result history](http://www.parkrun.com.au/results/athleteresultshistory/?athleteNumber=2054291
+) page can be crawled using the `getAthlete(athleteId)` method.
 
-Provided with an athlete ID, this package will crawl an athlete's summary page and return the following information:
+`getAthlete` returns a promise that will resolve with the crawled athlete data. 
+
+## Usage
+```js
+import { getAthlete } from 'parkrun-crawler';
+
+async function myFunc() {
+    try {
+        athlete = await getAthlete('2054291');
+        console.log(athlete);
+    } catch (e) {
+        console.log(e);
+    }
+}
+myFunc();
+```
+### Will output the following: 
 ```js
 {
     name: 'Matt DOWNS',
@@ -31,3 +49,4 @@ Provided with an athlete ID, this package will crawl an athlete's summary page a
     }]
 }
 ```
+(recentRuns, eventSummary and volunteerSummary shortened for display purposes)
