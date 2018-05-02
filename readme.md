@@ -10,7 +10,7 @@ Currently only the [athlete result history](http://www.parkrun.com.au/results/at
 
 ## Usage
 ```js
-import { getAthlete } from 'parkrun-crawler';
+const { getAthlete } = require('parkrun-crawler');
 
 async function myFunc() {
     try {
