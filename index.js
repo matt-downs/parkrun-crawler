@@ -64,6 +64,7 @@ module.exports.getAthlete = function (athleteId) {
             });
 
             var athlete = {
+                id: athleteId,
                 name: name,
                 totalRuns: totalRuns,
                 recentRuns: recentRuns,
