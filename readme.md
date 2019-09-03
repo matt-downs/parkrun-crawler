@@ -1,4 +1,5 @@
 # parkrun-crawler
+
 [![npm](https://img.shields.io/npm/dm/parkrun-crawler.svg)](https://www.npmjs.com/package/parkrun-crawler)
 [![npm](https://img.shields.io/npm/v/parkrun-crawler.svg)](https://www.npmjs.com/package/parkrun-crawler)
 
@@ -6,23 +7,26 @@ Unfortunatley Parkrun does not provide an API to query athlete or run informatio
 
 Currently only the [athlete result history](http://www.parkrun.com.au/results/athleteresultshistory/?athleteNumber=2054291) page can be crawled using the `getAthlete(athleteId)` method.
 
-`getAthlete` returns a promise that will resolve with the crawled athlete data. 
+`getAthlete` returns a promise that will resolve with the crawled athlete data.
 
 ## Usage
+
 ```js
-const { getAthlete } = require('parkrun-crawler');
+const { getAthlete } = require("parkrun-crawler");
 
 async function myFunc() {
-    try {
-        athlete = await getAthlete('2054291');
-        console.log(athlete);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    athlete = await getAthlete("2054291");
+    console.log(athlete);
+  } catch (e) {
+    console.log(e);
+  }
 }
 myFunc();
 ```
-### Will output the following: 
+
+### Will output the following:
+
 ```js
 {
     name: 'Matt DOWNS',
@@ -51,4 +55,5 @@ myFunc();
     }]
 }
 ```
+
 (recentRuns, eventSummary and volunteerSummary shortened for display purposes)
