@@ -26,11 +26,11 @@ module.exports.getAthlete = function(athleteId) {
       var name = heading[0].trim();
       var totalRuns = parseInt(heading[1].match(/\d+/));
 
-      var resultsTables = $("#results");
 
       // Recent runs
       var recentRuns = [];
-      var recentTable = $(resultsTables[0])
+
+      $("#most-recent").next()
         .find("tbody > tr")
         .each(function(i, row) {
           var run = {
@@ -49,7 +49,8 @@ module.exports.getAthlete = function(athleteId) {
 
       // Event summary
       var eventSummary = [];
-      var eventTable = $(resultsTables[1])
+      
+      $("#event-summary").next()
         .find("tbody > tr")
         .each(function(i, row) {
           var event = {
@@ -67,7 +68,8 @@ module.exports.getAthlete = function(athleteId) {
 
       // Volunteer summary
       var volunteerSummary = [];
-      var volunteerTable = $(resultsTables[2])
+
+      $("#volunteer-summary").next()
         .find("tbody > tr")
         .each(function(i, row) {
           var event = {
